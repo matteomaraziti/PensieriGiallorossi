@@ -30,34 +30,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Funzione per visualizzare un singolo articolo
-    function visualizzaArticolo() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const titoloRicercato = urlParams.get('titolo');
-
-        fetch('articoli.json')
-            .then(response => response.json())
-            .then(data => {
-                const articolo = data.articoli.find(a => a.titolo === titoloRicercato);
-                if (articolo) {
-                    document.getElementById('titolo').textContent = articolo.titolo;
-                    document.getElementById('data').textContent = `Data: ${articolo.data}`;
-                    document.getElementById('testo').textContent = articolo.testo;
-                } else {
-                    document.getElementById('titolo').textContent = "Articolo non trovato";
-                }
-            })
-            .catch(error => console.error('Errore nel caricamento dell\'articolo:', error));
-    }
 
     // Carica gli articoli sulla pagina principale quando la pagina è pronta
     const articoliTable = document.getElementById('articoli-table');
     if (articoliTable) {
         caricaArticoli();
-    }
-
-    // Visualizza l'articolo sulla pagina dell'articolo
-    const titoloElemento = document.getElementById('titolo');
-    if (titoloElemento) {
-        visualizzaArticolo();
     }
 });
