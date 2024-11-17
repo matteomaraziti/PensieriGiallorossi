@@ -1,12 +1,7 @@
 // Funzione per caricare gli articoli da 'articoli.json'
 function caricaArticoli() {
     fetch('articoli.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Errore nel caricamento del file JSON');
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
             const tbody = document.getElementById('articoli-table').querySelector('tbody');
             data.articoli.forEach(articolo => {
@@ -33,7 +28,32 @@ function caricaArticoli() {
         .catch(error => console.error('Errore nel caricamento degli articoli:', error));
 }
 
-// Assicurati che la funzione venga chiamata quando la pagina è pronta
-window.onload = function() {
+// Funzione per visualizzare un singolo articolo
+function visualizzaArticolo() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const titoloRicercato = urlParams.get('titolo');
+
+    fetch('articoli.json')
+        .then(response => response.json())
+        .then(data => {
+            const articolo = data.articoli.find(a => a.titolo === titoloRicercato);
+            if (articolo) {
+                document.getElementById('titolo').textContent = articolo.titolo;
+                document.getElementById('data').textContent = `Data: ${articolo.data}`;
+                document.getElementById('testo').textContent = articolo.testo;
+            } else {
+                document.getElementById('titolo').textContent = "Articolo non trovato";
+            }
+        })
+        .catch(error => console.error('Errore nel caricamento dell\'articolo:', error));
+}
+
+// Carica gli articoli sulla pagina principale quando la pagina è pronta
+if (document.getElementById('articoli-table')) {
     caricaArticoli();
-};
+}
+
+// Visualizza l'articolo sulla pagina dell'articolo
+if (document.getElementById('titolo')) {
+    visualizzaArticolo();
+}
