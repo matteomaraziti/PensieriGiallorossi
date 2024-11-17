@@ -4,6 +4,10 @@ function caricaArticoli() {
         .then(response => response.json())
         .then(data => {
             const tbody = document.getElementById('articoli-table').querySelector('tbody');
+            if (!tbody) {
+                console.error("Elemento tbody non trovato!");
+                return;
+            }
             data.articoli.forEach(articolo => {
                 const row = document.createElement('tr');
 
@@ -48,12 +52,17 @@ function visualizzaArticolo() {
         .catch(error => console.error('Errore nel caricamento dell\'articolo:', error));
 }
 
-// Carica gli articoli sulla pagina principale quando la pagina è pronta
-if (document.getElementById('articoli-table')) {
-    caricaArticoli();
-}
+// Assicurati che il DOM sia completamente caricato prima di eseguire il codice
+document.addEventListener("DOMContentLoaded", function() {
+    // Carica gli articoli sulla pagina principale
+    const articoliTable = document.getElementById('articoli-table');
+    if (articoliTable) {
+        caricaArticoli();
+    }
 
-// Visualizza l'articolo sulla pagina dell'articolo
-if (document.getElementById('titolo')) {
-    visualizzaArticolo();
-}
+    // Visualizza l'articolo sulla pagina dell'articolo
+    const titoloElemento = document.getElementById('titolo');
+    if (titoloElemento) {
+        visualizzaArticolo();
+    }
+});
