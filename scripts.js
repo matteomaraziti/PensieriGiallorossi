@@ -36,11 +36,15 @@ function caricaArticoli() {
 function visualizzaArticolo() {
     const urlParams = new URLSearchParams(window.location.search);
     const titoloRicercato = urlParams.get('titolo');
-
+    alert("ciaooo1");
     fetch('articoli.json')
-        .then(response => response.json())
+        .then(response => {
+            alert("ciaooo2");
+            response.json()})
+
         .then(data => {
             const articolo = data.articoli.find(a => a.titolo === titoloRicercato);
+            alert("ciaooo3");
             if (articolo) {
                 document.getElementById('titolo').textContent = articolo.titolo;
                 document.getElementById('data').textContent = `Data: ${articolo.data}`;
